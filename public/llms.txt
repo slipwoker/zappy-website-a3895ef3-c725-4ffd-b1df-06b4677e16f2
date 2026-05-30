@@ -7,33 +7,33 @@
 ## Pages
 
 ### Home
-https://radio-free-deland-a3895ef3.zappy5.app
+https://example.com
 Radio Free DeLand is your round-the-clock call-in radio experience rooted in Florida culture. Join live, share your voice, and be part of something real. Tune in now!
 
 ### Listen
-https://radio-free-deland-a3895ef3.zappy5.app/listen
+https://example.com/listen
 Stream Radio Free DeLand live at any hour and jump into real-time radio / broadcasting that never sleeps. Call in, speak up, and let your voice hit the airwaves today!
 
 ### About
-https://radio-free-deland-a3895ef3.zappy5.app/about
+https://example.com/about
 Discover how Radio Free DeLand became Central Florida&#39;s most open, community-driven radio / broadcasting platform — built for real people, real talk, and real connection 24/7.
 
 ### Contact
-https://radio-free-deland-a3895ef3.zappy5.app/contact
+https://example.com/contact
 Ready to call in, collaborate, or connect with Radio Free DeLand? Reach our team anytime and discover how easy it is to join the lively radio / broadcasting conversation live.
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://radio-free-deland-a3895ef3.zappy5.app/privacy
+https://example.com/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://radio-free-deland-a3895ef3.zappy5.app/terms
+https://example.com/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://radio-free-deland-a3895ef3.zappy5.app/accessibility
+https://example.com/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
@@ -43,8 +43,8 @@ Information about WCAG compliance and accessibility features.
 - (No contact details configured yet.)
 
 ### Contact form
-- URL: https://radio-free-deland-a3895ef3.zappy5.app/contact
-- Endpoint: https://radio-free-deland-a3895ef3.zappy5.app/api/email/contact-form
+- URL: https://example.com/contact
+- Endpoint: https://example.com/api/email/contact-form
 - Method: POST
 - Content-Type: application/json
 - Fields:
@@ -73,6 +73,6 @@ Radio / Broadcasting
 
 # Machine-readable feeds
 
-- Sitemap (XML): https://radio-free-deland-a3895ef3.zappy5.app/sitemap.xml
-- Robots: https://radio-free-deland-a3895ef3.zappy5.app/robots.txt
-- Flattened page text (for LLMs): https://radio-free-deland-a3895ef3.zappy5.app/llms-full.txt
+- Sitemap (XML): https://example.com/sitemap.xml
+- Robots: https://example.com/robots.txt
+- Flattened page text (for LLMs): https://example.com/llms-full.txt

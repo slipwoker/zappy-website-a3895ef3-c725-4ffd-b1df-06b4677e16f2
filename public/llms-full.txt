@@ -2,13 +2,13 @@
 
 A round-the-clock call-in radio show based in DeLand, Florida, offering listeners the opportunity to tune in and participate live at any hour. The show has a community-driven, accessible vibe rooted in local Florida culture, with an open-door format that invites audience engagement and real-time interaction.
 
-Source: https://radio-free-deland-a3895ef3.zappy5.app
+Source: https://example.com
 
 ---
 
 ## Radio / Broadcasting — Radio  Free DeLand
 
-URL: https://radio-free-deland-a3895ef3.zappy5.app
+URL: https://example.com
 Description: Radio Free DeLand is your round-the-clock call-in radio experience rooted in Florida culture. Join live, share your voice, and be part of something real. Tune in now!
 
 Radio / Broadcasting — Radio  Free DeLand
@@ -456,7 +456,7 @@ Privacy Policy   ·   Terms & Conditions   ·   Accessibility   ·   Generated b
 
 ## Go Live Right Now &amp; Join the Conversation — Radio Free DeLand
 
-URL: https://radio-free-deland-a3895ef3.zappy5.app/listen
+URL: https://example.com/listen
 Description: Stream Radio Free DeLand live at any hour and jump into real-time radio / broadcasting that never sleeps. Call in, speak up, and let your voice hit the airwaves today!
 
 Go Live Right Now & Join the Conversation — Radio Free DeLand
@@ -935,7 +935,7 @@ Privacy Policy   ·   Terms & Conditions   ·   Accessibility   ·   Generated b
 
 ## The Story Behind DeLand&#39;s Boldest Broadcast — Radio Free DeLand
 
-URL: https://radio-free-deland-a3895ef3.zappy5.app/about
+URL: https://example.com/about
 Description: Discover how Radio Free DeLand became Central Florida&#39;s most open, community-driven radio / broadcasting platform — built for real people, real talk, and real connection 24/7.
 
 The Story Behind DeLand's Boldest Broadcast — Radio Free DeLand
@@ -1385,7 +1385,7 @@ Privacy Policy   ·   Terms & Conditions   ·   Accessibility   ·   Generated b
 
 ## Get on Air — Reach Out &amp; Make Your Voice Heard — Radio Free DeLand
 
-URL: https://radio-free-deland-a3895ef3.zappy5.app/contact
+URL: https://example.com/contact
 Description: Ready to call in, collaborate, or connect with Radio Free DeLand? Reach our team anytime and discover how easy it is to join the lively radio / broadcasting conversation live.
 
 Get on Air — Reach Out & Make Your Voice Heard — Radio Free DeLand
@@ -1819,7 +1819,7 @@ Privacy Policy   ·   Terms & Conditions   ·   Accessibility   ·   Generated b
 
 ## Privacy Policy
 
-URL: https://radio-free-deland-a3895ef3.zappy5.app/privacy
+URL: https://example.com/privacy
 Description: Our privacy policy - how we collect, use, and protect your information
 
 Privacy Policy
@@ -2001,7 +2001,7 @@ Privacy Policy   ·   Terms & Conditions   ·   Accessibility   ·   Generated b
 
 ## Accessibility Statement
 
-URL: https://radio-free-deland-a3895ef3.zappy5.app/accessibility
+URL: https://example.com/accessibility
 Description: Our accessibility statement - our commitment to digital accessibility
 
 Accessibility Statement
@@ -2189,7 +2189,7 @@ Privacy Policy   ·   Terms & Conditions   ·   Accessibility   ·   Generated b
 
 ## Terms & Conditions
 
-URL: https://radio-free-deland-a3895ef3.zappy5.app/terms
+URL: https://example.com/terms
 Description: Terms of service - user rights and obligations
 
 Terms & Conditions
