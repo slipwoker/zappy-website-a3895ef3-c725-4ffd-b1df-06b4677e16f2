@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>The Story Behind DeLand&#39;s Boldest Broadcast — Radio Free DeLand</title>
+    <meta name="description" content="Discover how Radio Free DeLand became Central Florida&#39;s most open, community-driven radio / broadcasting platform — built for real people, real talk, and real connection 24/7.">
+    <meta name="keywords" content="radio / broadcasting, about Radio Free DeLand, Florida community radio, DeLand broadcasting history, open-door radio format">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'a3895ef3-c725-4ffd-b1df-06b4677e16f2',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="The Story Behind DeLand&#39;s Boldest Broadcast — Radio Free DeLand">
+    <meta property="og:description" content="Discover how Radio Free DeLand became Central Florida&#39;s most open, community-driven radio / broadcasting platform — built for real people, real talk, and real connection 24/7.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Story Behind DeLand&#39;s Boldest Broadcast — Radio Free DeLand">
+    <meta name="twitter:description" content="Discover how Radio Free DeLand became Central Florida&#39;s most open, community-driven radio / broadcasting platform — built for real people, real talk, and real connection 24/7.">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .skip-link { position: absolute; top: 0; left: 0; transform: translateY(-200%); padding: 12px 18px; background: var(--bg-dark, #1a1a1a); color: var(--text-light, #fff); font-weight: 600; border-radius: 0 0 8px 0; z-index: 10000; }
+    .skip-link:focus { transform: none; outline: 2px solid var(--ring, #fff); outline-offset: 2px; }
+    :focus-visible { outline: 2px solid var(--ring, currentColor); outline-offset: 3px; }
+  </style>
+
+
+  
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+    <script>window.ZAPPY_WEBSITE_ID = "a3895ef3-c725-4ffd-b1df-06b4677e16f2"; window.ZAPPY_API_BASE = "https://api.zappy5.com";</script>
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-light) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-light) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-light) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+  <nav class="navbar">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="[business_phone]" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link"><img class="logo" src="/assets/site-about-image-1.webp" alt="Radio  Free DeLand"></a>
+    </div>
+
+    <ul class="nav-menu" id="navMenu"><li><a href="/">Home</a></li><li><a href="/listen">Listen</a></li><li><a href="/about">About</a></li></ul>
+
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">Contact</a>
+    </div>
+  </div>
+</nav>
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .navbar,
+          nav.navbar {
+            min-height: 70px !important;
+          }
+
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 0 !important;
+            bottom: 0 !important;
+            margin-top: auto !important;
+            margin-bottom: auto !important;
+            transform: none !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-light)) !important;
+            touch-action: manipulation !important;
+            -webkit-tap-highlight-color: transparent !important;
+          }
+
+          html[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          body[data-zappy-site-type="ecommerce"] .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] header .phone-header-btn,
+          html[data-zappy-site-type="ecommerce"] nav .phone-header-btn {
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '0', 'important');
+          mobileToggle.style.setProperty('bottom', '0', 'important');
+          mobileToggle.style.setProperty('margin-top', 'auto', 'important');
+          mobileToggle.style.setProperty('margin-bottom', 'auto', 'important');
+          mobileToggle.style.setProperty('transform', 'none', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '0', 'important');
+          phoneBtn.style.setProperty('bottom', '0', 'important');
+          phoneBtn.style.setProperty('margin-top', 'auto', 'important');
+          phoneBtn.style.setProperty('margin-bottom', 'auto', 'important');
+          phoneBtn.style.setProperty('transform', 'none', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu handler (shared by click and touchend)
+    function handleToggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+      const closeIcon = newToggle.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    }
+    
+    // Use click for desktop/emulation and touchend as iOS Safari fallback.
+    // Prevent double-fire with a timestamp guard.
+    var lastToggleTime = 0;
+    function guardedToggle(e) {
+      var now = Date.now();
+      if (now - lastToggleTime < 300) return;
+      lastToggleTime = now;
+      handleToggle(e);
+    }
+    
+    newToggle.addEventListener('click', guardedToggle);
+    newToggle.addEventListener('touchend', guardedToggle);
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main id="main">
+    <section class="about-intro-section" data-layout-spec="About-intro">
+  <!-- Grain texture overlay -->
+  <div class="about-intro-grain" aria-hidden="true"></div>
+
+  <div class="about-intro-container">
+    <!-- Text Column -->
+    <div class="about-intro-text">
+      <div class="about-intro-eyebrow">
+        <span class="about-intro-signal-dot" aria-hidden="true"></span>
+        <span>Broadcasting Live from DeLand, FL</span>
+      </div>
+
+      <h1 class="about-intro-heading">Radio That Sounds<br>Like Your Neighborhood</h1>
+
+      <!-- Accent rule -->
+      <div class="about-intro-rule" aria-hidden="true"></div>
+
+      <p class="about-intro-lead">Radio Free DeLand is a round-the-clock call-in radio show rooted in the rhythms, voices, and stories of Central Florida. We believe that broadcasting — real radio / broadcasting in its most human form — should feel spontaneous, immediate, and deeply local.</p>
+
+      <p>Whether it's two in the afternoon or two in the morning, someone is on the air and the lines are open. Our format is simple: tune in, pick up the phone, and become part of the conversation. No gatekeepers, no scripts — just DeLand talking to itself, one call at a time.</p>
+
+      <p>Shaped by the culture, characters, and unhurried pace of Florida living, Radio Free DeLand is a platform built for the community, by the community. We carry local voices the way the humid air carries sound at dusk — warm, close, and impossible to ignore.</p>
+
+      <div class="about-intro-cta-row">
+        <a href="/contact" class="about-intro-btn-primary">Get in Touch</a>
+        <a href="#listen" class="about-intro-btn-ghost">
+          <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"></polygon></svg>
+          Listen Live
+        </a>
+      </div>
+    </div>
+
+    <!-- Image Column -->
+    <figure class="about-intro-figure">
+      <div class="about-intro-img-wrap">
+        <img loading="eager" fetchpriority="high" data-placeholder="about-intro-image-1" data-context="A warm, atmospheric portrait-style photograph of a local radio broadcaster at a vintage-style microphone setup in a small intimate studio in DeLand, Florida. The room has warm amber and teal lighting reminiscent of a late-night broadcast, with analog equipment visible in the background. The mood is personal, community-driven, and slightly nostalgic — evoking the feeling of a late-night FM radio show in a small Florida town. Lifestyle editorial photography style." width="560" height="720" src="/assets/site-about-intro-image-1.webp" alt="Radio Free DeLand broadcaster at the microphone in a warm, intimate studio setting">
+        <!-- Decorative corner accent -->
+        <div class="about-intro-img-accent" aria-hidden="true"></div>
+      </div>
+      <figcaption class="about-intro-figcaption">On air, every hour — DeLand, Florida</figcaption>
+    </figure>
+  </div>
+
+  <!-- Decorative radio waves -->
+  <svg class="about-intro-waves-deco" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M150 150 m-20 0 a20 20 0 1 1 40 0 a20 20 0 1 1 -40 0" stroke="var(--accent)" stroke-width="1.5" opacity="0.18" fill="none"></path>
+    <path d="M150 150 m-45 0 a45 45 0 1 1 90 0 a45 45 0 1 1 -90 0" stroke="var(--accent)" stroke-width="1.2" opacity="0.12" fill="none"></path>
+    <path d="M150 150 m-72 0 a72 72 0 1 1 144 0 a72 72 0 1 1 -144 0" stroke="var(--accent)" stroke-width="1" opacity="0.08" fill="none"></path>
+    <path d="M150 150 m-100 0 a100 100 0 1 1 200 0 a100 100 0 1 1 -200 0" stroke="var(--accent)" stroke-width="0.8" opacity="0.06" fill="none"></path>
+    <path d="M150 150 m-130 0 a130 130 0 1 1 260 0 a130 130 0 1 1 -260 0" stroke="var(--accent)" stroke-width="0.6" opacity="0.04" fill="none"></path>
+  </svg>
+
+  <!-- Bottom paper-rip divider -->
+  <div class="about-intro-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <filter id="about-rip-shadow">
+        <feDropShadow dx="0" dy="-3" stdDeviation="4" flood-color="rgba(36,50,74,0.18)"></feDropShadow>
+      </filter>
+      <path d="M0,70 L0,28 Q18,22 36,30 T72,24 Q90,18 108,26 T144,20 Q162,14 180,22 T216,16 Q234,10 252,18 T288,12 Q306,6 324,14 T360,8 Q378,2 396,10 T432,5 Q450,0 468,8 T504,3 Q522,0 540,7 T576,2 Q594,0 612,6 T648,1 Q666,0 684,5 T720,0 Q738,0 756,5 T792,2 Q810,0 828,6 T864,3 Q882,0 900,7 T936,4 Q954,1 972,8 T1008,5 Q1026,2 1044,10 T1080,7 Q1098,5 1116,13 T1152,10 Q1170,8 1188,16 T1224,14 Q1242,12 1260,20 T1296,18 Q1314,16 1332,24 T1368,22 Q1386,20 1404,28 T1440,26 L1440,70 Z" fill="#24324A" filter="url(#about-rip-shadow)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="about-mission-section" data-layout-spec="About-mission">
+  <!-- Radio wave decorative SVG -->
+  <svg class="about-mission-waves" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+    <g fill="none" stroke="#2EC4B6" stroke-width="1.5" opacity="0.10">
+      <path d="M600,200 Q540,120 480,200 Q420,280 360,200 Q300,120 240,200"></path>
+      <path d="M600,200 Q520,80 440,200 Q360,320 280,200 Q200,80 120,200"></path>
+      <path d="M600,200 Q500,40 400,200 Q300,360 200,200 Q100,40 0,200"></path>
+      <path d="M600,200 Q480,0 360,200 Q240,400 120,200"></path>
+      <path d="M600,200 Q460,-40 320,200 Q180,440 40,200"></path>
+    </g>
+  </svg>
+
+  <!-- Grain texture overlay -->
+  <div class="about-mission-grain" aria-hidden="true"></div>
+
+  <div class="about-mission-container">
+    <!-- Header block -->
+    <div class="about-mission-header">
+      <div class="about-mission-eyebrow">Our Purpose</div>
+      <h2 class="about-mission-title">Why We Broadcast</h2>
+      <p class="about-mission-intro">Radio Free DeLand exists because every voice deserves airtime. We keep the dial open around the clock — no gatekeepers, no dead air, no appointment required. Just DeLand, Florida, and whoever wants to talk.</p>
+    </div>
+
+    <!-- Accent rule -->
+    <div class="about-mission-rule" aria-hidden="true"></div>
+
+    <!-- Mission pillars -->
+    <div class="about-mission-pillars">
+
+      <article class="about-mission-pillar">
+        <div class="about-mission-pillar-accent" aria-hidden="true"></div>
+        <h3 class="about-mission-pillar-title">Open to Everyone,<br>Every Hour</h3>
+        <p class="about-mission-pillar-body">We run 24 hours a day, 7 days a week, because inspiration and conversation don't follow a schedule. Pick up the phone at 2 a.m. or 2 p.m. — the line is always live, the mic is always warm, and you are always welcome here.</p>
+      </article>
+
+      <article class="about-mission-pillar">
+        <div class="about-mission-pillar-accent" aria-hidden="true"></div>
+        <h3 class="about-mission-pillar-title">Real Voices,<br>Real Conversation</h3>
+        <p class="about-mission-pillar-body">This is community radio and broadcasting at its most human. No scripts, no spin — just neighbors talking to neighbors. We believe the best broadcasting happens when the audience becomes the show, and every caller shapes what comes next.</p>
+      </article>
+
+      <article class="about-mission-pillar">
+        <div class="about-mission-pillar-accent" aria-hidden="true"></div>
+        <h3 class="about-mission-pillar-title">Rooted in<br>DeLand, Florida</h3>
+        <p class="about-mission-pillar-body">We are proudly, stubbornly local. DeLand's character — its humidity, its quirks, its oak-lined streets and late-night diners — lives in every segment. We amplify what makes this corner of Florida distinct, and we keep it free.</p>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- Bottom mist gradient divider -->
+  <div class="about-mission-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="mistGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#24324A" stop-opacity="0"></stop>
+          <stop offset="100%" stop-color="#F8F4EE" stop-opacity="1"></stop>
+        </linearGradient>
+      </defs>
+      <rect width="1200" height="100" fill="url(#mistGrad)"></rect>
+    </svg>
+  </div>
+</section>
+
+<section class="about-team-section" data-layout-spec="About-team">
+  <!-- Grain texture overlay -->
+  <div class="about-team-grain" aria-hidden="true"></div>
+
+  <div class="about-team-container">
+    <!-- Section Header -->
+    <div class="about-team-header">
+      <div class="about-team-label">
+        <span class="about-team-label-line"></span>
+        <small>THE VOICES BEHIND THE DIAL</small>
+        <span class="about-team-label-line"></span>
+      </div>
+      <h2 class="about-team-title">People Who Keep the Lines Open</h2>
+      <p class="about-team-intro">Radio Free DeLand runs on real voices — local people who show up at all hours, keep the conversation alive, and make sure there's always someone on the other end of the line. Meet the crew that shapes every broadcast.</p>
+    </div>
+
+    <!-- Team Grid -->
+    <div class="about-team-grid">
+
+      <!-- Card 1 -->
+      <article class="about-team-card">
+        <div class="about-team-img-wrap about-team-img-wrap--tall">
+          <img loading="lazy" decoding="async" data-placeholder="about-team-image-1" data-context="Editorial-style black and white portrait of a middle-aged male radio host sitting at a vintage broadcast desk with microphone and mixing board, warm analog studio lighting, Florida community radio station atmosphere, slightly cropped from shoulders up with direct eye contact, printed magazine portrait feel" width="600" height="720" src="/assets/site-about-team-image-1.webp" alt="Lead Host at Radio Free DeLand broadcast desk">
+          <div class="about-team-img-accent" aria-hidden="true"></div>
+        </div>
+        <div class="about-team-card-body">
+          <div class="about-team-role-tag"><small>Lead Host &amp; Founder</small></div>
+          <h3 class="about-team-name">The Voice at Midnight</h3>
+          <p>The anchor of every overnight shift, keeping conversation flowing from dusk to dawn. Whether it's a slow Tuesday or a packed Friday call-in, this is the presence that holds the frequency steady and makes every caller feel heard.</p>
+          <div class="about-team-divider-line" aria-hidden="true"></div>
+          <div class="about-team-meta">
+            <span class="about-team-meta-item"><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i> <small>On Air Since 2019</small></span>
+            <span class="about-team-meta-item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <small>DeLand, FL</small></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="about-team-card">
+        <div class="about-team-img-wrap about-team-img-wrap--square">
+          <img loading="lazy" decoding="async" data-placeholder="about-team-image-2" data-context="Editorial portrait of a woman producer in her 30s wearing headphones around her neck, standing near audio equipment in a warm-lit Florida radio studio, candid and relaxed pose, slightly off-center crop, magazine editorial photography style with warm amber and shadow tones" width="600" height="540" src="/assets/site-about-team-image-2.webp" alt="Station Producer at Radio Free DeLand">
+          <div class="about-team-img-accent" aria-hidden="true"></div>
+        </div>
+        <div class="about-team-card-body">
+          <div class="about-team-role-tag"><small>Station Producer</small></div>
+          <h3 class="about-team-name">Behind Every Broadcast</h3>
+          <p>The engine that keeps the show running on time and on tone. From cueing callers to shaping the nightly lineup, this producer weaves structure into spontaneity and ensures the signal never wavers — even at 3 a.m.</p>
+          <div class="about-team-divider-line" aria-hidden="true"></div>
+          <div class="about-team-meta">
+            <span class="about-team-meta-item"><i class="fa-solid fa-sliders" aria-hidden="true"></i> <small>Production &amp; Scheduling</small></span>
+            <span class="about-team-meta-item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <small>DeLand, FL</small></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="about-team-card">
+        <div class="about-team-img-wrap about-team-img-wrap--square">
+          <img loading="lazy" decoding="async" data-placeholder="about-team-image-3" data-context="Editorial portrait of a young Black man community contributor and radio correspondent, outdoors in a Florida neighborhood at golden hour, casual but confident stance, slightly tilted crop for editorial dynamism, warm dusk light, community radio broadcasting feel, magazine portrait style" width="600" height="540" src="/assets/site-about-team-image-3.webp" alt="Community Correspondent for Radio Free DeLand">
+          <div class="about-team-img-accent" aria-hidden="true"></div>
+        </div>
+        <div class="about-team-card-body">
+          <div class="about-team-role-tag"><small>Community Correspondent</small></div>
+          <h3 class="about-team-name">Out in the Neighborhood</h3>
+          <p>This correspondent bridges the studio and the streets, bringing stories from DeLand's parks, diners, and front porches directly to the airwaves. The show's connection to local culture runs through every segment they file.</p>
+          <div class="about-team-divider-line" aria-hidden="true"></div>
+          <div class="about-team-meta">
+            <span class="about-team-meta-item"><i class="fa-solid fa-microphone-lines" aria-hidden="true"></i> <small>Field Reporting</small></span>
+            <span class="about-team-meta-item"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <small>Volusia County, FL</small></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="about-team-card">
+        <div class="about-team-img-wrap about-team-img-wrap--tall">
+          <img loading="lazy" decoding="async" data-placeholder="about-team-image-4" data-context="Editorial portrait of an older Latino man overnight call screener wearing a headset, seated at a dimly lit radio station console with warm amber lamp light, close crop from chest up, calm and weathered expression, analog radio station atmosphere, late night Florida broadcast vibe, printed magazine portrait style" width="600" height="720" src="/assets/site-about-team-image-4.webp" alt="Overnight Call Screener at Radio Free DeLand">
+          <div class="about-team-img-accent" aria-hidden="true"></div>
+        </div>
+        <div class="about-team-card-body">
+          <div class="about-team-role-tag"><small>Overnight Call Screener</small></div>
+          <h3 class="about-team-name">Gatekeeper of the Night Line</h3>
+          <p>Every caller who makes it to air passes through this steady hand first. Working the late hours when the calls get personal and the stories get real, this screener keeps the conversation honest, safe, and worth hearing.</p>
+          <div class="about-team-divider-line" aria-hidden="true"></div>
+          <div class="about-team-meta">
+            <span class="about-team-meta-item"><i class="fa-solid fa-phone-volume" aria-hidden="true"></i> <small>Calls &amp; Live Intake</small></span>
+            <span class="about-team-meta-item"><i class="fa-solid fa-moon" aria-hidden="true"></i> <small>10pm – 6am Shift</small></span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <!-- /Team Grid -->
+
+    <!-- Bottom CTA strip -->
+    <div class="about-team-cta-strip">
+      <p class="about-team-cta-text">Want to be part of the broadcast? We're always looking for community voices.</p>
+      <a href="/contact" class="about-team-cta-btn">Get in Touch</a>
+    </div>
+  </div>
+
+  <!-- Scalloped bottom divider -->
+  <div class="about-team-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,90 L0,52 Q30,38 60,52 Q90,66 120,52 Q150,38 180,52 Q210,66 240,52 Q270,38 300,52 Q330,66 360,52 Q390,38 420,52 Q450,66 480,52 Q510,38 540,52 Q570,66 600,52 Q630,38 660,52 Q690,66 720,52 Q750,38 780,52 Q810,66 840,52 Q870,38 900,52 Q930,66 960,52 Q990,38 1020,52 Q1050,66 1080,52 Q1110,38 1140,52 Q1170,66 1200,52 L1200,90 Z" fill="#0A0D12"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="about-values-section" data-layout-spec="About-values">
+  <!-- Grain texture overlay -->
+  <div class="about-values-grain" aria-hidden="true"></div>
+
+  <!-- Decorative radio wave lines -->
+  <svg class="about-values-radio-waves" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20,150 Q80,80 150,150 Q220,220 280,150" stroke="#2EC4B6" stroke-width="1.5" fill="none" opacity="0.18"></path>
+    <path d="M40,150 Q100,60 150,150 Q200,240 260,150" stroke="#2EC4B6" stroke-width="1.5" fill="none" opacity="0.13"></path>
+    <path d="M60,150 Q110,70 150,150 Q190,230 240,150" stroke="#2EC4B6" stroke-width="1.5" fill="none" opacity="0.09"></path>
+    <path d="M80,150 Q115,85 150,150 Q185,215 220,150" stroke="#2EC4B6" stroke-width="1.5" fill="none" opacity="0.07"></path>
+  </svg>
+
+  <div class="about-values-container">
+    <!-- Intro column -->
+    <aside class="about-values-intro">
+      <span class="about-values-eyebrow">Our Values</span>
+      <div class="about-values-accent-line" aria-hidden="true"></div>
+      <h2 class="about-values-heading">What We Stand For</h2>
+      <p class="about-values-intro-text">Radio Free DeLand isn't just a broadcast — it's a handshake with every person in Volusia County who ever wanted to be heard. These aren't corporate talking points. They're the reason we keep the mic open at 3 a.m.</p>
+      <div class="about-values-signal-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+    </aside>
+
+    <!-- Staggered value blocks column -->
+    <div class="about-values-blocks">
+
+      <!-- Value 1 -->
+      <article class="about-values-card about-values-card--offset-1">
+        <div class="about-values-card-number" aria-hidden="true">01</div>
+        <div class="about-values-card-content">
+          <div class="about-values-card-icon-row">
+            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="14" cy="14" r="4" fill="#2EC4B6"></circle>
+              <path d="M6 14 C6 9.58 9.58 6 14 6" stroke="#2EC4B6" stroke-width="1.8" stroke-linecap="round" fill="none"></path>
+              <path d="M22 14 C22 9.58 18.42 6 14 6" stroke="#2EC4B6" stroke-width="1.8" stroke-linecap="round" fill="none"></path>
+              <path d="M2 14 C2 7.37 7.37 2 14 2" stroke="#FF9F1C" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"></path>
+              <path d="M26 14 C26 7.37 20.63 2 14 2" stroke="#FF9F1C" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"></path>
+            </svg>
+            <div class="about-values-card-accent-bar" aria-hidden="true"></div>
+          </div>
+          <h3 class="about-values-card-title">Open to Everyone, Always</h3>
+          <p class="about-values-card-text">The airwaves belong to the people. Whether you're calling in from a porch in Stetson Hills or a late-night diner on US-17, there's a seat at the table and a line kept open for you — twenty-four hours a day, seven days a week, no cover charge.</p>
+        </div>
+      </article>
+
+      <!-- Value 2 -->
+      <article class="about-values-card about-values-card--offset-2">
+        <div class="about-values-card-number" aria-hidden="true">02</div>
+        <div class="about-values-card-content">
+          <div class="about-values-card-icon-row">
+            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="4" y="10" width="20" height="13" rx="2" stroke="#2EC4B6" stroke-width="1.8" fill="none"></rect>
+              <path d="M9 10 V7 C9 4.79 11.24 3 14 3 C16.76 3 19 4.79 19 7 V10" stroke="#FF9F1C" stroke-width="1.8" stroke-linecap="round" fill="none"></path>
+              <circle cx="14" cy="16.5" r="2" fill="#2EC4B6"></circle>
+            </svg>
+            <div class="about-values-card-accent-bar" aria-hidden="true"></div>
+          </div>
+          <h3 class="about-values-card-title">Honest, Unfiltered Conversation</h3>
+          <p class="about-values-card-text">We don't script our guests or polish away the rough edges. Real talk from real neighbors is what makes radio worth listening to. We hold space for disagreement, nuance, and the kind of honesty you only get when the mic is live and nobody's performing.</p>
+        </div>
+      </article>
+
+      <!-- Value 3 -->
+      <article class="about-values-card about-values-card--offset-3">
+        <div class="about-values-card-number" aria-hidden="true">03</div>
+        <div class="about-values-card-content">
+          <div class="about-values-card-icon-row">
+            <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M14 3 L14 25" stroke="#2EC4B6" stroke-width="1.8" stroke-linecap="round"></path>
+              <path d="M6 8 Q10 12 14 10 Q18 8 22 12" stroke="#FF9F1C" stroke-width="1.8" stroke-linecap="round" fill="none"></path>
+              <path d="M6 16 Q10 20 14 18 Q18 16 22 20" stroke="#FF9F1C" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"></path>
+              <circle cx="14" cy="25" r="2.5" fill="#2EC4B6"></circle>
+            </svg>
+            <div class="about-values-card-accent-bar" aria-hidden="true"></div>
+          </div>
+          <h3 class="about-values-card-title">Rooted Right Here in DeLand</h3>
+          <p class="about-values-card-text">We're proud to broadcast from the Athens of Florida. Our stories come from these streets, these festivals, these moss-draped neighborhoods. Local voices aren't a feature — they're the whole point. We cover what the big stations skip, because this community deserves its own signal.</p>
+        </div>
+      </article>
+
+      <!-- Translucent backplate -->
+      <div class="about-values-backplate" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Bottom diagonal clip divider -->
+  <div class="about-values-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,80 L0,48 L1200,8 L1200,80 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="about-cta-section" data-layout-spec="About-cta">
+  <!-- Decorative radio wave SVG -->
+  <svg class="about-cta-radio-waves" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M160,160 m-20,0 a20,20 0 1,1 40,0 a20,20 0 1,1 -40,0" stroke="currentColor" stroke-width="2" fill="none" opacity="0.5"></path>
+    <path d="M160,160 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.35"></path>
+    <path d="M160,160 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.22"></path>
+    <path d="M160,160 m-100,0 a100,100 0 1,1 200,0 a100,100 0 1,1 -200,0" stroke="currentColor" stroke-width="1" fill="none" opacity="0.13"></path>
+    <path d="M160,160 m-130,0 a130,130 0 1,1 260,0 a130,130 0 1,1 -260,0" stroke="currentColor" stroke-width="1" fill="none" opacity="0.08"></path>
+  </svg>
+
+  <!-- Warm gradient band -->
+  <div class="about-cta-gradient-band" aria-hidden="true"></div>
+
+  <div class="about-cta-container">
+    <!-- Accent line -->
+    <div class="about-cta-accent-line" aria-hidden="true"></div>
+
+    <h2 class="about-cta-heading">Join the Conversation — Any Hour, Any Night</h2>
+
+    <p class="about-cta-body">Radio Free DeLand is on the air around the clock, and the line is always open. Whether you're a longtime listener, a curious newcomer, or a fellow night owl looking for real community radio and broadcasting in DeLand, Florida — we want to hear from you. Pick up the phone, drop us a message, and become part of the live show.</p>
+
+    <a href="/contact" class="about-cta-btn">
+      <i class="fa-solid fa-microphone-lines" aria-hidden="true"></i>
+      Get in Touch
+    </a>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer" aria-label="Site Footer"> <div class="footer-noise-overlay"></div> <div class="footer-top-accent"></div> <div class="footer-container"> <div class="footer-grid"> <!-- Column 1: Company Info --> <div class="footer-col footer-col--brand"> <img src="/assets/radio-free-deland-radio-broadcasting-logo.webp" alt="Radio  Free DeLand" class="logo"> <p class="footer-tagline">Broadcasting live from the heart of DeLand — your 24/7 community voice on the dial.</p> <div class="footer-social">    </div> <div class="footer-badge"><span class="badge-dot"></span> On Air 24/7</div> </div> <!-- Column 2: Quick Links --> <div class="footer-col footer-col--links"> <h3 class="footer-heading">Quick Links</h3> <ul class="footer-nav"> <li><a href="/">Home</a></li> <li><a href="/listen">Listen</a></li> <li><a href="/about">About</a></li> <li><a href="/contact">Contact</a></li> </ul> </div> <!-- Column 3: Contact --> <div class="footer-col footer-col--contact"> <h3 class="footer-heading">Get In Touch</h3> <ul class="footer-contact"> <li> <span class="contact-icon"><i class="fas fa-envelope"></i></span> <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span> </li> <li> <span class="contact-icon"><i class="fas fa-phone"></i></span> <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span> </li> <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span> <span class="contact-text">[business_address]</span></a></li> </ul> </div> <!-- Column 4: Tune In --> <div class="footer-col footer-col--tunein"> <h3 class="footer-heading">Tune In</h3> <p class="footer-body-text">Call in live, request a song, or share your story. Radio Free DeLand is your station — built by the community, for the community.</p> <div class="radio-dial-widget" aria-hidden="true"> <div class="dial-bar"> <div class="dial-indicator"></div> </div> <div class="dial-labels"><span>88</span><span>FM</span><span>108</span></div> </div> </div> </div> </div> <!-- Bottom Bar --> <div class="footer-bottom"> <div class="footer-container footer-bottom-inner"> <p class="footer-copyright">© 2026 Radio Free DeLand. All rights reserved.</p> <div class="footer-legal"> <a href="/privacy">Privacy Policy</a> <span class="legal-sep" aria-hidden="true">·</span> <a href="/terms">Terms &amp; Conditions</a> <span class="legal-sep" aria-hidden="true">·</span> <a href="/accessibility">Accessibility</a> <span class="legal-sep" aria-hidden="true">·</span> <a href="https://zappy5.com" target="_blank" class="zappy-attribution">Generated by Zappy</a> </div> </div> </div> </footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+
+    <script id="zappy-navbar-scroll-effect">
+    (function(){
+      var nb=document.querySelector('nav.navbar,.navbar:not(.zappy-catalog-menu)');
+      var cm=document.querySelector('.zappy-catalog-menu,#zappy-catalog-menu');
+      if(!nb)return;
+      var fb='rgba(248,244,238,0.85)';
+      var th=60;
+      var rs=getComputedStyle(document.documentElement);
+      var td=rs.getPropertyValue('--text-dark').trim()||'#1a1a1a';
+      var tl=rs.getPropertyValue('--text-light').trim()||'#ffffff';
+      var st=true?td:tl;
+      nb.style.transition='background 0.3s ease,backdrop-filter 0.3s ease,-webkit-backdrop-filter 0.3s ease,box-shadow 0.3s ease';
+      if(cm)cm.style.transition='background 0.3s ease,backdrop-filter 0.3s ease,-webkit-backdrop-filter 0.3s ease';
+      var neSel='a,.navbar-brand,.navbar-brand a,.dropdown-toggle,.mobile-toggle,.phone-header-btn,.mobile-hamburger-btn,.mobile-close-btn,.mobile-submenu-toggle,.nav-link';
+      var skipCls=['cart-link','login-link','nav-search-toggle','search-toggle'];
+      function sTC(c,clr){var els=c.querySelectorAll(neSel);for(var i=0;i<els.length;i++){var sk=false;if(els[i].closest('.sub-menu')||els[i].closest('.dropdown-menu')){sk=true;}for(var j=0;j<skipCls.length;j++){if(els[i].classList.contains(skipCls[j])){sk=true;break;}}if(!sk)els[i].style.setProperty('color',clr,'important');}}
+      function cTC(c){var els=c.querySelectorAll(neSel);for(var i=0;i<els.length;i++){if(els[i].closest('.sub-menu')||els[i].closest('.dropdown-menu'))continue;els[i].style.removeProperty('color');}}
+      function applyScrolled(){
+        nb.classList.add('scrolled');
+        if(window.innerWidth>768){
+          nb.style.setProperty('--frosted-text',st);
+          nb.style.setProperty('background-image','none','important');
+          nb.style.setProperty('background-color',fb,'important');
+          nb.style.backdropFilter='blur(12px)';nb.style.webkitBackdropFilter='blur(12px)';nb.style.boxShadow='0 2px 16px rgba(0,0,0,0.12)';
+          sTC(nb,st);
+        }
+        if(cm){cm.classList.add('scrolled');if(window.innerWidth>768){cm.style.setProperty('background',fb,'important');cm.style.setProperty('backdrop-filter','blur(12px)','important');cm.style.setProperty('-webkit-backdrop-filter','blur(12px)','important');sTC(cm,st);}}
+      }
+      function onS(){
+        if(window._zappyNavNoDarkHero) return;
+        if(window.innerWidth<=768){nb.classList.remove('scrolled');cTC(nb);if(cm){cm.classList.remove('scrolled');cTC(cm);}return;}
+        var y=window.scrollY||window.pageYOffset;
+        if(y>th){
+          nb.classList.add('scrolled');nb.style.setProperty('background-color',fb,'important');nb.style.setProperty('background-image','none','important');
+          nb.style.setProperty('--frosted-text',st);nb.style.backdropFilter='blur(12px)';nb.style.webkitBackdropFilter='blur(12px)';nb.style.boxShadow='0 2px 16px rgba(0,0,0,0.12)';
+          sTC(nb,st);
+          if(cm){cm.classList.add('scrolled');cm.style.setProperty('background',fb,'important');cm.style.setProperty('backdrop-filter','blur(12px)','important');cm.style.setProperty('-webkit-backdrop-filter','blur(12px)','important');sTC(cm,st);}
+        }else{
+          nb.classList.remove('scrolled');nb.style.setProperty('background-color','transparent','important');nb.style.removeProperty('background-image');
+          nb.style.removeProperty('--frosted-text');nb.style.backdropFilter='none';nb.style.webkitBackdropFilter='none';nb.style.boxShadow='none';
+          cTC(nb);
+          if(cm){cm.classList.remove('scrolled');cm.style.setProperty('background','transparent','important');cm.style.setProperty('backdrop-filter','none','important');cm.style.setProperty('-webkit-backdrop-filter','none','important');cTC(cm);}
+        }
+      }
+      function sLum(rv,gv,bv){rv/=255;gv/=255;bv/=255;rv=rv<=0.03928?rv/12.92:Math.pow((rv+0.055)/1.055,2.4);gv=gv<=0.03928?gv/12.92:Math.pow((gv+0.055)/1.055,2.4);bv=bv<=0.03928?bv/12.92:Math.pow((bv+0.055)/1.055,2.4);return 0.2126*rv+0.7152*gv+0.0722*bv;}
+      window.addEventListener('scroll',onS,{passive:true});
+      window.addEventListener('resize',onS,{passive:true});
+      onS();
+      var heroEl=document.querySelector('section[class*="hero"],[data-hero-type],main:not(.courses-page-main)>section:first-child');
+      var hasDH=false;
+      if(heroEl){var hCs=getComputedStyle(heroEl);var hBI=hCs.backgroundImage;if(hBI&&hBI!=='none'){if(hBI.indexOf('url(')!==-1){var hM2=hCs.backgroundColor.match(/\d+/g);if(hM2&&hM2.length>=3){hasDH=sLum(parseInt(hM2[0]),parseInt(hM2[1]),parseInt(hM2[2]))<0.4;}else{hasDH=true;}}else if(hBI.indexOf('gradient')!==-1){var cM=hBI.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/g);if(cM&&cM.length>0){var tLm=0;for(var ci=0;ci<cM.length;ci++){var pts=cM[ci].match(/\d+/g);tLm+=sLum(parseInt(pts[0]),parseInt(pts[1]),parseInt(pts[2]));}hasDH=(tLm/cM.length)<0.4;}else{hasDH=true;}}else{hasDH=true;}}else{var hM=hCs.backgroundColor.match(/\d+/g);if(hM&&hM.length>=3){hasDH=sLum(parseInt(hM[0]),parseInt(hM[1]),parseInt(hM[2]))<0.4;}}}
+      if(!hasDH){window.removeEventListener('scroll',onS);window.removeEventListener('resize',onS);applyScrolled();window._zappyNavNoDarkHero=true;}
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+# Radio  Free DeLand — Generative Engine Optimization Map
+
+> A round-the-clock call-in radio show based in DeLand, Florida, offering listeners the opportunity to tune in and participate live at any hour. The show has a community-driven, accessible vibe rooted in local Florida culture, with an open-door format that invites audience engagement and real-time interaction.
+
+---
+
+## Pages
+
+### Home
+https://radio-free-deland-a3895ef3.zappy5.app
+Radio Free DeLand is your round-the-clock call-in radio experience rooted in Florida culture. Join live, share your voice, and be part of something real. Tune in now!
+
+### Listen
+https://radio-free-deland-a3895ef3.zappy5.app/listen
+Stream Radio Free DeLand live at any hour and jump into real-time radio / broadcasting that never sleeps. Call in, speak up, and let your voice hit the airwaves today!
+
+### About
+https://radio-free-deland-a3895ef3.zappy5.app/about
+Discover how Radio Free DeLand became Central Florida&#39;s most open, community-driven radio / broadcasting platform — built for real people, real talk, and real connection 24/7.
+
+### Contact
+https://radio-free-deland-a3895ef3.zappy5.app/contact
+Ready to call in, collaborate, or connect with Radio Free DeLand? Reach our team anytime and discover how easy it is to join the lively radio / broadcasting conversation live.
+
+## Legal & Policy
+
+### Privacy Policy
+https://radio-free-deland-a3895ef3.zappy5.app/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://radio-free-deland-a3895ef3.zappy5.app/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://radio-free-deland-a3895ef3.zappy5.app/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+## How to Contact Us
+
+- (No contact details configured yet.)
+
+### Contact form
+- URL: https://radio-free-deland-a3895ef3.zappy5.app/contact
+- Endpoint: https://radio-free-deland-a3895ef3.zappy5.app/api/email/contact-form
+- Method: POST
+- Content-Type: application/json
+- Fields:
+  - `name` (text, required)
+  - `email` (email, required)
+  - `phone` (tel)
+  - `message` (textarea, required)
+  - `privacy_consent` (checkbox, required)
+
+---
+
+# Business Context (for LLM understanding)
+
+## About Radio  Free DeLand
+A round-the-clock call-in radio show based in DeLand, Florida, offering listeners the opportunity to tune in and participate live at any hour. The show has a community-driven, accessible vibe rooted in local Florida culture, with an open-door format that invites audience engagement and real-time interaction.
+
+## Target Audience
+- Night Owls
+- Talk Radio Enthusiasts
+- Local Community Members
+
+## Industry
+Radio / Broadcasting
+
+---
+
+# Machine-readable feeds
+
+- Sitemap (XML): https://radio-free-deland-a3895ef3.zappy5.app/sitemap.xml
+- Robots: https://radio-free-deland-a3895ef3.zappy5.app/robots.txt
+- Flattened page text (for LLMs): https://radio-free-deland-a3895ef3.zappy5.app/llms-full.txt
